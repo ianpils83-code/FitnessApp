@@ -1,0 +1,5 @@
+[
+  {"id":1,"name":"Push-up","muscle":"Chest","equipment":"Bodyweight","img":"/images/ex1.svg"},
+  {"id":2,"name":"Squat","muscle":"Legs","equipment":"Bodyweight","img":"/images/ex2.svg"},
+  {"id":3,"name":"Bent-over Row","muscle":"Back","equipment":"Dumbbell","img":"/images/ex3.svg"}
+]
