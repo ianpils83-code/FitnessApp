@@ -6,6 +6,7 @@ import Plans from './pages/Plans'
 import Library from './pages/Library'
 import Calculator from './pages/Calculator'
 import Diet from './pages/Diet'
+import Progress from './pages/Progress'
 
 export default function App() {
   const [page, setPage] = useState('home')
@@ -20,6 +21,8 @@ export default function App() {
         return <Calculator />
       case 'diet':
         return <Diet />
+      case 'progress':
+        return <Progress />
       default:
         return <Home />
     }

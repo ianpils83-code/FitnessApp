@@ -2,11 +2,12 @@ import React from 'react'
 
 export default function Nav({ page, setPage }) {
   const links = [
-    { id: 'home', label: 'Home' },
-    { id: 'plans', label: 'Plans' },
-    { id: 'library', label: 'Library' },
+    { id: 'home',       label: 'Home'       },
+    { id: 'plans',      label: 'Plans'      },
+    { id: 'library',    label: 'Library'    },
     { id: 'calculator', label: 'Calculator' },
-    { id: 'diet', label: 'Diet' }
+    { id: 'diet',       label: 'Diet'       },
+    { id: 'progress',   label: '📈 Progress' }
   ]
 
   return (
