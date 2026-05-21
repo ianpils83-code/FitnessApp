@@ -7,6 +7,7 @@ import Library from './pages/Library'
 import Calculator from './pages/Calculator'
 import Diet from './pages/Diet'
 import Progress from './pages/Progress'
+import RestTimer from './components/RestTimer'
 
 export default function App() {
   const [page, setPage] = useState('home')
@@ -33,6 +34,7 @@ export default function App() {
       <Nav page={page} setPage={setPage} />
       <main className="container">{renderPage()}</main>
       <Footer />
+      <RestTimer />
     </div>
   )
 }
