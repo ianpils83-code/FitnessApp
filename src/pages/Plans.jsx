@@ -1,4 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+
+// ── Checklist helpers ──────────────────────────────────────────
+const CL_KEY = 'ff_checklist'
+const loadChecklist = () => { try { return JSON.parse(localStorage.getItem(CL_KEY)) || {} } catch { return {} } }
+const saveChecklist = (cl) => localStorage.setItem(CL_KEY, JSON.stringify(cl))
+const exKey = (planId, wi, di, ei) => `${planId}-${wi}-${di}-${ei}`
 
 const plans = [
   {
@@ -166,8 +172,25 @@ const plans = [
 const tagColor = { Beginner: '#4ade80', Intermediate: '#fb923c', Advanced: '#f87171' }
 
 export default function Plans() {
-  const [selected, setSelected] = useState(null)
-  const [openWeek, setOpenWeek] = useState(0)
+  const [selected,   setSelected]   = useState(null)
+  const [openWeek,   setOpenWeek]   = useState(0)
+  const [checklist,  setChecklist]  = useState(loadChecklist)
+
+  const toggle = (key) => {
+    const next = { ...checklist, [key]: !checklist[key] }
+    setChecklist(next)
+    saveChecklist(next)
+  }
+
+  const resetDay = (planId, wi, di, count) => {
+    const next = { ...checklist }
+    for (let ei = 0; ei < count; ei++) delete next[exKey(planId, wi, di, ei)]
+    setChecklist(next)
+    saveChecklist(next)
+  }
+
+  const dayDone = (planId, wi, di, count) =>
+    Array.from({ length: count }, (_, ei) => checklist[exKey(planId, wi, di, ei)] || false)
 
   if (selected) {
     const plan = plans.find(p => p.id === selected)
@@ -226,31 +249,99 @@ export default function Plans() {
 
             {openWeek === wi && (
               <div style={{ border: '1px solid #333', borderTop: 'none', borderRadius: '0 0 10px 10px', padding: 16 }}>
-                {w.days.map((d, di) => (
-                  <div key={di} style={{ marginBottom: di < w.days.length - 1 ? 20 : 0 }}>
-                    <h4 style={{ color: '#e879f9', marginBottom: 10 }}>{d.day}</h4>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
-                      <thead>
-                        <tr style={{ color: '#888', borderBottom: '1px solid #333' }}>
-                          <th style={{ textAlign: 'left', paddingBottom: 6 }}>Exercise</th>
-                          <th style={{ textAlign: 'center', paddingBottom: 6 }}>Sets</th>
-                          <th style={{ textAlign: 'center', paddingBottom: 6 }}>Reps</th>
-                          <th style={{ textAlign: 'center', paddingBottom: 6 }}>Rest</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {d.exercises.map((ex, ei) => (
-                          <tr key={ei} style={{ borderBottom: '1px solid #222' }}>
-                            <td style={{ padding: '8px 0', color: '#fff' }}>{ex.name}</td>
-                            <td style={{ textAlign: 'center', color: '#bbb' }}>{ex.sets}</td>
-                            <td style={{ textAlign: 'center', color: '#bbb' }}>{ex.reps}</td>
-                            <td style={{ textAlign: 'center', color: '#bbb' }}>{ex.rest}</td>
+                {w.days.map((d, di) => {
+                  const checks   = dayDone(plan.id, wi, di, d.exercises.length)
+                  const doneCount = checks.filter(Boolean).length
+                  const total    = d.exercises.length
+                  const allDone  = doneCount === total && total > 0
+                  const pct      = total ? Math.round((doneCount / total) * 100) : 0
+
+                  return (
+                    <div key={di} style={{ marginBottom: di < w.days.length - 1 ? 24 : 0 }}>
+
+                      {/* Day header + progress */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                        <h4 style={{ color: allDone ? '#4ade80' : '#e879f9', margin: 0 }}>
+                          {allDone ? '✅' : '📋'} {d.day}
+                        </h4>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                          <span style={{ fontSize: 12, color: allDone ? '#4ade80' : '#888' }}>
+                            {doneCount} / {total}
+                          </span>
+                          {doneCount > 0 && (
+                            <button
+                              onClick={() => resetDay(plan.id, wi, di, total)}
+                              style={{ background: 'none', border: '1px solid #333', color: '#555', padding: '2px 8px', borderRadius: 6, cursor: 'pointer', fontSize: 11 }}
+                            >
+                              Reset
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Progress bar */}
+                      {total > 1 && (
+                        <div style={{ height: 4, background: '#222', borderRadius: 4, marginBottom: 10, overflow: 'hidden' }}>
+                          <div style={{
+                            height: '100%', borderRadius: 4,
+                            width: `${pct}%`,
+                            background: allDone ? '#4ade80' : '#e879f9',
+                            transition: 'width 0.3s ease'
+                          }} />
+                        </div>
+                      )}
+
+                      {/* Completion banner */}
+                      {allDone && (
+                        <div style={{ background: '#4ade8022', border: '1px solid #4ade8044', borderRadius: 8, padding: '8px 12px', marginBottom: 10, color: '#4ade80', fontSize: 13, fontWeight: 600 }}>
+                          🎉 Day complete! Great work — start your rest timer.
+                        </div>
+                      )}
+
+                      {/* Exercise table */}
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+                        <thead>
+                          <tr style={{ color: '#888', borderBottom: '1px solid #333' }}>
+                            <th style={{ width: 28, paddingBottom: 6 }}></th>
+                            <th style={{ textAlign: 'left', paddingBottom: 6 }}>Exercise</th>
+                            <th style={{ textAlign: 'center', paddingBottom: 6 }}>Sets</th>
+                            <th style={{ textAlign: 'center', paddingBottom: 6 }}>Reps</th>
+                            <th style={{ textAlign: 'center', paddingBottom: 6 }}>Rest</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                ))}
+                        </thead>
+                        <tbody>
+                          {d.exercises.map((ex, ei) => {
+                            const key     = exKey(plan.id, wi, di, ei)
+                            const checked = !!checklist[key]
+                            return (
+                              <tr
+                                key={ei}
+                                onClick={() => toggle(key)}
+                                style={{ borderBottom: '1px solid #1a1a1a', cursor: 'pointer', opacity: checked ? 0.45 : 1, transition: 'opacity 0.2s' }}
+                              >
+                                <td style={{ paddingRight: 8, paddingTop: 8, paddingBottom: 8 }}>
+                                  <div style={{
+                                    width: 18, height: 18, borderRadius: 5,
+                                    border: checked ? 'none' : '2px solid #444',
+                                    background: checked ? '#e879f9' : 'transparent',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    flexShrink: 0
+                                  }}>
+                                    {checked && <span style={{ color: '#000', fontSize: 11, fontWeight: 900 }}>✓</span>}
+                                  </div>
+                                </td>
+                                <td style={{ padding: '8px 0', color: '#fff', textDecoration: checked ? 'line-through' : 'none' }}>{ex.name}</td>
+                                <td style={{ textAlign: 'center', color: '#bbb' }}>{ex.sets}</td>
+                                <td style={{ textAlign: 'center', color: '#bbb' }}>{ex.reps}</td>
+                                <td style={{ textAlign: 'center', color: '#bbb' }}>{ex.rest}</td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )
+                })}
               </div>
             )}
           </div>
