@@ -82,5 +82,131 @@
     "muscle": "Core",
     "equipment": "Bodyweight",
     "img": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 13,
+    "name": "Incline Push-up",
+    "muscle": "Chest",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 14,
+    "name": "Chest Fly",
+    "muscle": "Chest",
+    "equipment": "Dumbbell",
+    "img": "https://images.unsplash.com/photo-1583454155184-870a1f63aebc?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 15,
+    "name": "Lat Pulldown",
+    "muscle": "Back",
+    "equipment": "Cable",
+    "img": "https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 16,
+    "name": "Seated Row",
+    "muscle": "Back",
+    "equipment": "Cable",
+    "img": "https://images.unsplash.com/photo-1549476464-37392f717541?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 17,
+    "name": "Superman",
+    "muscle": "Back",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 18,
+    "name": "Glute Bridge",
+    "muscle": "Legs",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1600618528240-fb9fc964b853?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 19,
+    "name": "Calf Raise",
+    "muscle": "Legs",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 20,
+    "name": "Step-up",
+    "muscle": "Legs",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 21,
+    "name": "Wall Sit",
+    "muscle": "Legs",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1571771894821-895e9f5e8134?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 22,
+    "name": "Mountain Climber",
+    "muscle": "Core",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 23,
+    "name": "Bicycle Crunch",
+    "muscle": "Core",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 24,
+    "name": "Leg Raise",
+    "muscle": "Core",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 25,
+    "name": "Side Plank",
+    "muscle": "Core",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1544216717-3bbf52512659?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 26,
+    "name": "Lateral Raise",
+    "muscle": "Shoulders",
+    "equipment": "Dumbbell",
+    "img": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 27,
+    "name": "Arnold Press",
+    "muscle": "Shoulders",
+    "equipment": "Dumbbell",
+    "img": "https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 28,
+    "name": "Hammer Curl",
+    "muscle": "Arms",
+    "equipment": "Dumbbell",
+    "img": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 29,
+    "name": "Burpee",
+    "muscle": "Full Body",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 30,
+    "name": "Kettlebell Swing",
+    "muscle": "Full Body",
+    "equipment": "Kettlebell",
+    "img": "https://images.unsplash.com/photo-1517963879433-6ad2a04a36a6?auto=format&fit=crop&w=400&h=160"
   }
 ]

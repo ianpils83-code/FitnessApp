@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ExerciseCard from '../components/ExerciseCard'
 import exercises from '../data/exercises.json'
 
-const muscles = ['All', 'Chest', 'Back', 'Legs', 'Core', 'Shoulders', 'Arms']
+const muscles = ['All', 'Chest', 'Back', 'Legs', 'Core', 'Shoulders', 'Arms', 'Full Body']
 
 export default function Library() {
   const [search, setSearch] = useState('')
