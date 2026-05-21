@@ -4,209 +4,359 @@
     "name": "Push-up",
     "muscle": "Chest",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Hands shoulder-width apart, body in a straight line from head to heels",
+      "Lower chest to floor with elbows at 45° from body — not flared wide",
+      "Don't let hips sag or pike — squeeze glutes throughout"
+    ]
   },
   {
     "id": 2,
     "name": "Squat",
     "muscle": "Legs",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1649887974297-4be052375a67?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1649887974297-4be052375a67?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Feet shoulder-width apart, toes pointing slightly outward",
+      "Break at hips and knees together — keep chest tall and upright",
+      "Drive through heels on the way up, knees tracking over toes"
+    ]
   },
   {
     "id": 3,
     "name": "Bent-over Row",
     "muscle": "Back",
     "equipment": "Dumbbell",
-    "img": "https://images.unsplash.com/photo-1734630341082-0fec0e10126c?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1734630341082-0fec0e10126c?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Hinge at hips to ~45°, back flat, core braced before you pull",
+      "Pull elbows back and up, squeezing shoulder blades at the top",
+      "Don't jerk or use momentum — control both the pull and the return"
+    ]
   },
   {
     "id": 4,
     "name": "Plank",
     "muscle": "Core",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1714646442330-9068099f5521?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1714646442330-9068099f5521?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Forearms or hands below shoulders, body in a perfectly straight line",
+      "Squeeze glutes and brace core as if bracing for a punch",
+      "Don't let hips sag or rise — breathe steadily and hold"
+    ]
   },
   {
     "id": 5,
     "name": "Lunge",
     "muscle": "Legs",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1758599880618-3f03f2a401b4?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1758599880618-3f03f2a401b4?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Step forward keeping your torso upright — don't lean",
+      "Front knee tracks over ankle, back knee lowers close to the floor",
+      "Push through your front heel to return — don't let knee cave inward"
+    ]
   },
   {
     "id": 6,
     "name": "Deadlift",
     "muscle": "Back",
     "equipment": "Barbell",
-    "img": "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Bar over mid-foot, grip just outside legs, back flat before lifting",
+      "Think 'push the floor away' not 'pull the bar up'",
+      "Drive hips forward at the top — don't hyperextend your lower back"
+    ]
   },
   {
     "id": 7,
     "name": "Bench Press",
     "muscle": "Chest",
     "equipment": "Barbell",
-    "img": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Slight arch in upper back, shoulder blades squeezed and tucked",
+      "Lower the bar to your lower chest — touch lightly, don't bounce",
+      "Drive feet into floor for leg drive and press in a slight arc"
+    ]
   },
   {
     "id": 8,
     "name": "Pull-up",
     "muscle": "Back",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Start from a dead hang with arms fully extended",
+      "Pull your chest toward the bar by driving elbows down and back",
+      "Avoid kipping — control the descent for maximum muscle development"
+    ]
   },
   {
     "id": 9,
     "name": "Shoulder Press",
     "muscle": "Shoulders",
     "equipment": "Dumbbell",
-    "img": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Brace core tight — don't arch your lower back as you press",
+      "Lower dumbbells to chin/upper chest height, elbows slightly forward",
+      "Press straight up, not forward — think tall, vertical movement"
+    ]
   },
   {
     "id": 10,
     "name": "Bicep Curl",
     "muscle": "Arms",
     "equipment": "Dumbbell",
-    "img": "https://images.unsplash.com/photo-1581009137042-c552e485697a?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1581009137042-c552e485697a?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Pin elbows to your sides and keep them there throughout",
+      "Squeeze hard at the top, then lower slowly — take 3 seconds down",
+      "Don't swing your body — eliminate momentum for better gains"
+    ]
   },
   {
     "id": 11,
     "name": "Tricep Dip",
     "muscle": "Arms",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1530822847156-5df684ec5105?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1530822847156-5df684ec5105?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Lean slightly forward to target triceps — upright hits chest more",
+      "Lower until elbows reach 90°, then drive through palms to press up",
+      "Keep shoulders down — don't let them shrug up toward your ears"
+    ]
   },
   {
     "id": 12,
     "name": "Russian Twist",
     "muscle": "Core",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Lean back to ~45°, feet raised or on floor for easier variation",
+      "Rotate from your torso — not just swinging your arms side to side",
+      "Slow and controlled gets better results than fast and sloppy"
+    ]
   },
   {
     "id": 13,
     "name": "Incline Push-up",
     "muscle": "Chest",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Same form as a regular push-up — hands elevated on a bench or step",
+      "Lower the surface height to make it progressively harder over time",
+      "Keep body in a straight line from head to heels throughout"
+    ]
   },
   {
     "id": 14,
     "name": "Chest Fly",
     "muscle": "Chest",
     "equipment": "Dumbbell",
-    "img": "https://images.unsplash.com/photo-1583454155184-870a1f63aebc?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1583454155184-870a1f63aebc?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Keep a slight bend in elbows throughout — never fully lock out",
+      "Lower until you feel a good stretch in your chest — don't overstretch",
+      "Squeeze chest to bring dumbbells back up, leading with elbows"
+    ]
   },
   {
     "id": 15,
     "name": "Lat Pulldown",
     "muscle": "Back",
     "equipment": "Cable",
-    "img": "https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1532029837206-abbe2b7620e3?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Lean back slightly, chest up — pull bar to your upper chest",
+      "Lead with elbows driving down and back, not your hands",
+      "Never pull behind your neck — it puts harmful strain on your spine"
+    ]
   },
   {
     "id": 16,
     "name": "Seated Row",
     "muscle": "Back",
     "equipment": "Cable",
-    "img": "https://images.unsplash.com/photo-1549476464-37392f717541?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1549476464-37392f717541?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Sit tall with core braced — pull the handle to your belly button",
+      "Squeeze your shoulder blades together fully at the end of the pull",
+      "Control the return slowly — don't let the weight snap back"
+    ]
   },
   {
     "id": 17,
     "name": "Superman",
     "muscle": "Back",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Lie face down, arms extended forward, forehead lightly on floor",
+      "Lift arms, chest and legs simultaneously — hold 2 seconds at top",
+      "Focus on a slow, controlled lift — not a jerk or snap"
+    ]
   },
   {
     "id": 18,
     "name": "Glute Bridge",
     "muscle": "Legs",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1600618528240-fb9fc964b853?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1600618528240-fb9fc964b853?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Feet flat on floor hip-width apart, knees bent at 90°",
+      "Drive hips up by squeezing glutes hard — hold 1–2 seconds at top",
+      "Don't hyperextend your lower back — tuck pelvis slightly at the top"
+    ]
   },
   {
     "id": 19,
     "name": "Calf Raise",
     "muscle": "Legs",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Use a step for full range of motion — heel drops below platform level",
+      "Pause at the bottom for a stretch, pause at top for peak contraction",
+      "Go slow — calves respond well to time under tension"
+    ]
   },
   {
     "id": 20,
     "name": "Step-up",
     "muscle": "Legs",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Drive through the heel of the elevated foot — not the back foot",
+      "Keep your torso upright — don't lean forward excessively",
+      "Control the descent slowly — don't just drop back down"
+    ]
   },
   {
     "id": 21,
     "name": "Wall Sit",
     "muscle": "Legs",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1571771894821-895e9f5e8134?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1571771894821-895e9f5e8134?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Back flat against wall, thighs parallel to floor, knees at 90°",
+      "Weight through heels — toes can lift slightly if needed",
+      "Breathe steadily and hold — arms on thighs or extended forward"
+    ]
   },
   {
     "id": 22,
     "name": "Mountain Climber",
     "muscle": "Core",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Start in a strong plank position — hips level, core tight",
+      "Drive knees toward chest alternately — keep hips from rising",
+      "Faster = more cardio burn, slower = deeper core engagement"
+    ]
   },
   {
     "id": 23,
     "name": "Bicycle Crunch",
     "muscle": "Core",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Rotate from your shoulders — not just twisting your neck",
+      "Fully extend the straight leg low to the floor as you twist",
+      "Slow and controlled every rep beats fast and sloppy every time"
+    ]
   },
   {
     "id": 24,
     "name": "Leg Raise",
     "muscle": "Core",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1608245449230-4ac19066d2d0?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Press your lower back firmly into the floor before you start",
+      "Keep legs straight or slightly bent — lower slowly with control",
+      "Stop just before feet touch the floor to keep tension on the core"
+    ]
   },
   {
     "id": 25,
     "name": "Side Plank",
     "muscle": "Core",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1544216717-3bbf52512659?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1544216717-3bbf52512659?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Stack feet or stagger them for better stability as a beginner",
+      "Hips up — body in a straight line from head to feet",
+      "Don't let your hip drop toward the floor — keep it elevated"
+    ]
   },
   {
     "id": 26,
     "name": "Lateral Raise",
     "muscle": "Shoulders",
     "equipment": "Dumbbell",
-    "img": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Slight bend in elbows — raise arms to shoulder height only",
+      "Lead with your elbows, not your hands or wrists",
+      "Keep shoulders down — don't shrug. Use lighter weight with control"
+    ]
   },
   {
     "id": 27,
     "name": "Arnold Press",
     "muscle": "Shoulders",
     "equipment": "Dumbbell",
-    "img": "https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Start with palms facing you at chin height, elbows close together",
+      "Rotate palms outward as you press up — full rotation by the top",
+      "Reverse the rotation on the way down — slow is better"
+    ]
   },
   {
     "id": 28,
     "name": "Hammer Curl",
     "muscle": "Arms",
     "equipment": "Dumbbell",
-    "img": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Palms face each other (neutral grip) throughout the entire movement",
+      "Elbows stay pinned to your sides — isolate the bicep and brachialis",
+      "Great for building forearm and upper arm thickness"
+    ]
   },
   {
     "id": 29,
     "name": "Burpee",
     "muscle": "Full Body",
     "equipment": "Bodyweight",
-    "img": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Jump or step feet back to a solid plank — chest to floor is optional",
+      "Explosive jump at the top — clap hands overhead for a full rep",
+      "Scale by removing the jump or the push-up to suit your level"
+    ]
   },
   {
     "id": 30,
     "name": "Kettlebell Swing",
     "muscle": "Full Body",
     "equipment": "Kettlebell",
-    "img": "https://images.unsplash.com/photo-1517963879433-6ad2a04a36a6?auto=format&fit=crop&w=400&h=160"
+    "img": "https://images.unsplash.com/photo-1517963879433-6ad2a04a36a6?auto=format&fit=crop&w=400&h=160",
+    "tips": [
+      "Hip hinge, not a squat — the power comes from snapping your hips forward",
+      "Drive hips explosively to swing the bell to shoulder height",
+      "Arms just guide the bell — your glutes and hips do all the work"
+    ]
   }
 ]

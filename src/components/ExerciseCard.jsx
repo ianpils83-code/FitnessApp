@@ -16,6 +16,7 @@ const isNewPR = (entry, current) => {
 
 export default function ExerciseCard({ exercise }) {
   const [showForm, setShowForm] = useState(false)
+  const [showTips, setShowTips] = useState(false)
   const [weight,   setWeight]   = useState('')
   const [reps,     setReps]     = useState('')
   const [flash,    setFlash]    = useState(null) // 'pr' | 'saved'
@@ -69,6 +70,36 @@ export default function ExerciseCard({ exercise }) {
 
       <h3 style={{ marginTop: 10, marginBottom: 2 }}>{exercise.name}</h3>
       <div style={{ color: '#bbb', fontSize: 13 }}>{exercise.muscle} • {exercise.equipment}</div>
+
+      {/* How To tips */}
+      {exercise.tips?.length > 0 && (
+        <div style={{ marginTop: 8 }}>
+          <button
+            onClick={() => setShowTips(s => !s)}
+            style={{
+              background: 'none', border: 'none', color: showTips ? '#e879f9' : '#555',
+              cursor: 'pointer', fontSize: 12, padding: 0,
+              display: 'flex', alignItems: 'center', gap: 4
+            }}
+          >
+            <span>{showTips ? '▲' : '▼'}</span>
+            <span>💡 {showTips ? 'Hide tips' : 'How to do it'}</span>
+          </button>
+          {showTips && (
+            <ul style={{ margin: '8px 0 0', paddingLeft: 16, listStyle: 'none' }}>
+              {exercise.tips.map((tip, i) => (
+                <li key={i} style={{
+                  fontSize: 12, color: '#bbb', marginBottom: 5,
+                  paddingLeft: 12, position: 'relative', lineHeight: 1.5
+                }}>
+                  <span style={{ position: 'absolute', left: 0, color: '#e879f9' }}>›</span>
+                  {tip}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
 
       {/* Current PR badge */}
       {myPR && (
