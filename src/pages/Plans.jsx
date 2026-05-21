@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import PlanBuilder from '../components/PlanBuilder'
+
+// ── Custom plans localStorage ──────────────────────────────────
+const CP_KEY      = 'ff_custom_plans'
+const loadCustom  = () => { try { return JSON.parse(localStorage.getItem(CP_KEY)) || [] } catch { return [] } }
+const saveCustom  = (p) => localStorage.setItem(CP_KEY, JSON.stringify(p))
 
 // ── Checklist helpers ──────────────────────────────────────────
 const CL_KEY = 'ff_checklist'
@@ -204,10 +210,31 @@ const plans = [
 const tagColor = { Beginner: '#4ade80', Intermediate: '#fb923c', Advanced: '#f87171' }
 
 export default function Plans() {
-  const [selected,   setSelected]   = useState(null)
-  const [openWeek,   setOpenWeek]   = useState(0)
-  const [checklist,  setChecklist]  = useState(loadChecklist)
-  const [loggedKeys, setLoggedKeys] = useState({}) // track just-logged days in this session
+  const [selected,     setSelected]   = useState(null)
+  const [openWeek,     setOpenWeek]   = useState(0)
+  const [checklist,    setChecklist]  = useState(loadChecklist)
+  const [loggedKeys,   setLoggedKeys] = useState({})
+  const [customPlans,  setCustomPlans] = useState(loadCustom)
+  const [building,     setBuilding]   = useState(false)
+  const [editingPlan,  setEditingPlan] = useState(null)
+
+  const saveAndSetCustom = (plans) => { setCustomPlans(plans); saveCustom(plans) }
+
+  const handleSavePlan = (plan) => {
+    const existing = customPlans.find(p => p.id === plan.id)
+    const updated  = existing
+      ? customPlans.map(p => p.id === plan.id ? plan : p)
+      : [...customPlans, plan]
+    saveAndSetCustom(updated)
+    setBuilding(false)
+    setEditingPlan(null)
+  }
+
+  const deleteCustomPlan = (id) => {
+    if (!window.confirm('Delete this custom plan?')) return
+    saveAndSetCustom(customPlans.filter(p => p.id !== id))
+    if (selected === id) setSelected(null)
+  }
 
   const toggle = (key) => {
     const next = { ...checklist, [key]: !checklist[key] }
@@ -224,6 +251,116 @@ export default function Plans() {
 
   const dayDone = (planId, wi, di, count) =>
     Array.from({ length: count }, (_, ei) => checklist[exKey(planId, wi, di, ei)] || false)
+
+  // ── Builder view ──────────────────────────────────────────────
+  if (building) {
+    return (
+      <PlanBuilder
+        editPlan={editingPlan}
+        onSave={handleSavePlan}
+        onCancel={() => { setBuilding(false); setEditingPlan(null) }}
+      />
+    )
+  }
+
+  // ── Custom plan detail view ────────────────────────────────────
+  const selectedCustom = customPlans.find(p => p.id === selected)
+  if (selectedCustom) {
+    const plan     = selectedCustom
+    const checks   = plan.exercises.map((_, ei) => !!checklist[exKey(plan.id, 0, 0, ei)])
+    const doneCount = checks.filter(Boolean).length
+    const total     = plan.exercises.length
+    const allDone   = doneCount === total && total > 0
+    const pct       = total ? Math.round((doneCount / total) * 100) : 0
+    const sessionKey  = `${plan.id}-0-0`
+    const loggedNow   = !!loggedKeys[sessionKey]
+    const loggedToday = alreadyLoggedToday(plan.id, plan.title) || loggedNow
+    const lastDone    = lastDoneDate(plan.id, plan.title)
+    const count       = timesDone(plan.id, plan.title)
+
+    return (
+      <section>
+        <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+          <button onClick={() => setSelected(null)} style={{ background: 'none', border: '1px solid #444', color: '#ccc', padding: '6px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 14 }}>
+            ← Back to Plans
+          </button>
+          <button onClick={() => { setEditingPlan(plan); setBuilding(true) }} style={{ background: 'none', border: '1px solid #444', color: '#bbb', padding: '6px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 14 }}>
+            ✏️ Edit
+          </button>
+        </div>
+
+        <div className="card" style={{ marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: 36 }}>{plan.emoji}</span>
+            <div>
+              <h2 style={{ margin: 0 }}>{plan.title}</h2>
+              <span style={{ background: '#e879f922', color: '#e879f9', padding: '2px 10px', borderRadius: 12, fontSize: 12, fontWeight: 600 }}>Custom Plan</span>
+            </div>
+          </div>
+          {count > 0 && <div style={{ color: '#555', fontSize: 12, marginTop: 8 }}>Last done: {lastDone} · {count}× completed</div>}
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+            <h4 style={{ color: allDone ? '#4ade80' : '#e879f9', margin: 0 }}>
+              {allDone ? '✅' : '📋'} Workout · {doneCount} / {total}
+            </h4>
+            {doneCount > 0 && (
+              <button
+                onClick={() => { const next = { ...checklist }; for (let ei = 0; ei < total; ei++) delete next[exKey(plan.id, 0, 0, ei)]; setChecklist(next); saveChecklist(next) }}
+                style={{ background: 'none', border: '1px solid #333', color: '#555', padding: '2px 8px', borderRadius: 6, cursor: 'pointer', fontSize: 11 }}
+              >Reset</button>
+            )}
+          </div>
+
+          <div style={{ height: 4, background: '#222', borderRadius: 4, marginBottom: 12, overflow: 'hidden' }}>
+            <div style={{ height: '100%', width: `${pct}%`, background: allDone ? '#4ade80' : '#e879f9', borderRadius: 4, transition: 'width 0.3s' }} />
+          </div>
+
+          {allDone && (
+            <div style={{ background: '#4ade8022', border: '1px solid #4ade8044', borderRadius: 8, padding: '10px 14px', marginBottom: 12 }}>
+              <div style={{ color: '#4ade80', fontWeight: 700, fontSize: 13, marginBottom: 8 }}>🎉 Workout complete!</div>
+              {loggedToday
+                ? <div style={{ color: '#4ade80', fontSize: 12 }}>✓ Logged to history today</div>
+                : <button onClick={() => { logWorkout(plan, 1, plan.title, total); setLoggedKeys(k => ({ ...k, [sessionKey]: true })) }} style={{ background: '#4ade80', border: 'none', color: '#000', padding: '7px 18px', borderRadius: 8, fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>📝 Log Workout</button>
+              }
+            </div>
+          )}
+
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+            <thead>
+              <tr style={{ color: '#888', borderBottom: '1px solid #333' }}>
+                <th style={{ width: 28 }} />
+                <th style={{ textAlign: 'left', paddingBottom: 6 }}>Exercise</th>
+                <th style={{ textAlign: 'center', paddingBottom: 6 }}>Sets</th>
+                <th style={{ textAlign: 'center', paddingBottom: 6 }}>Reps</th>
+                <th style={{ textAlign: 'center', paddingBottom: 6 }}>Rest</th>
+              </tr>
+            </thead>
+            <tbody>
+              {plan.exercises.map((ex, ei) => {
+                const key     = exKey(plan.id, 0, 0, ei)
+                const checked = !!checklist[key]
+                return (
+                  <tr key={ei} onClick={() => toggle(key)} style={{ borderBottom: '1px solid #1a1a1a', cursor: 'pointer', opacity: checked ? 0.45 : 1, transition: 'opacity 0.2s' }}>
+                    <td style={{ paddingRight: 8, paddingTop: 8, paddingBottom: 8 }}>
+                      <div style={{ width: 18, height: 18, borderRadius: 5, border: checked ? 'none' : '2px solid #444', background: checked ? '#e879f9' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        {checked && <span style={{ color: '#000', fontSize: 11, fontWeight: 900 }}>✓</span>}
+                      </div>
+                    </td>
+                    <td style={{ padding: '8px 0', color: '#fff', textDecoration: checked ? 'line-through' : 'none' }}>{ex.name}</td>
+                    <td style={{ textAlign: 'center', color: '#bbb' }}>{ex.sets}</td>
+                    <td style={{ textAlign: 'center', color: '#bbb' }}>{ex.reps}</td>
+                    <td style={{ textAlign: 'center', color: '#bbb' }}>{ex.rest}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    )
+  }
 
   if (selected) {
     const plan = plans.find(p => p.id === selected)
@@ -417,9 +554,20 @@ export default function Plans() {
   // Plan list
   return (
     <section>
-      <h2>Workout Plans</h2>
-      <p style={{ color: '#ccc' }}>Choose a plan and follow the week-by-week schedule.</p>
-      <div className="grid" style={{ marginTop: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+        <div>
+          <h2 style={{ margin: 0 }}>Workout Plans</h2>
+          <p style={{ color: '#ccc', marginTop: 4 }}>Choose a plan and follow the week-by-week schedule.</p>
+        </div>
+        <button
+          onClick={() => { setEditingPlan(null); setBuilding(true) }}
+          style={{ background: '#e879f9', border: 'none', color: '#000', padding: '10px 20px', borderRadius: 10, fontWeight: 700, cursor: 'pointer', fontSize: 14, whiteSpace: 'nowrap' }}
+        >
+          ⚡ Build Custom Plan
+        </button>
+      </div>
+
+      <div className="grid" style={{ marginTop: 16 }}>
         {plans.map(p => (
           <div
             key={p.id}
@@ -446,6 +594,43 @@ export default function Plans() {
           </div>
         ))}
       </div>
+
+      {/* Custom plans */}
+      {customPlans.length > 0 && (
+        <>
+          <h3 style={{ marginTop: 28, marginBottom: 12, color: '#bbb' }}>⚡ Your Custom Plans</h3>
+          <div className="grid">
+            {customPlans.map(p => (
+              <div
+                key={p.id}
+                className="card"
+                style={{ cursor: 'pointer', transition: 'border-color 0.2s', position: 'relative' }}
+                onClick={() => setSelected(p.id)}
+                onMouseEnter={e => e.currentTarget.style.borderColor = '#e879f9'}
+                onMouseLeave={e => e.currentTarget.style.borderColor = ''}
+              >
+                <div style={{ fontSize: 28, marginBottom: 8 }}>{p.emoji}</div>
+                <h3 style={{ margin: 0 }}>{p.title}</h3>
+                <div style={{ color: '#888', fontSize: 12, margin: '4px 0 8px' }}>{p.exercises.length} exercises</div>
+                <p style={{ color: '#ccc', margin: 0, fontSize: 13 }}>{p.desc}</p>
+                <div style={{ marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ background: '#e879f922', color: '#e879f9', padding: '3px 10px', borderRadius: 12, fontSize: 12, fontWeight: 600 }}>Custom</span>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button
+                      onClick={e => { e.stopPropagation(); setEditingPlan(p); setBuilding(true) }}
+                      style={{ background: 'none', border: '1px solid #333', color: '#888', padding: '3px 10px', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}
+                    >✏️ Edit</button>
+                    <button
+                      onClick={e => { e.stopPropagation(); deleteCustomPlan(p.id) }}
+                      style={{ background: 'none', border: '1px solid #333', color: '#555', padding: '3px 10px', borderRadius: 6, cursor: 'pointer', fontSize: 12 }}
+                    >🗑</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </section>
   )
 }

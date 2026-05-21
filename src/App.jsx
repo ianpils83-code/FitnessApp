@@ -34,7 +34,7 @@ export default function App() {
       case 'macros':
         return <Macros />
       default:
-        return <Home />
+        return <Home setPage={setPage} />
     }
   }
 
