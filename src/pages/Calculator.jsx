@@ -1,14 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 function round(n) { return Math.round(n) }
 
+const load = (key, fallback) => {
+  const v = localStorage.getItem(key)
+  return v !== null ? JSON.parse(v) : fallback
+}
+
 export default function Calculator() {
-  const [sex, setSex] = useState('male')
-  const [age, setAge] = useState(30)
-  const [weight, setWeight] = useState(75)
-  const [height, setHeight] = useState(175)
-  const [activity, setActivity] = useState(1.2)
-  const [goal, setGoal] = useState('maintain')
+  const [sex,      setSex]      = useState(() => load('ff_sex',      'male'))
+  const [age,      setAge]      = useState(() => load('ff_age',      30))
+  const [weight,   setWeight]   = useState(() => load('ff_weight',   75))
+  const [height,   setHeight]   = useState(() => load('ff_height',   175))
+  const [activity, setActivity] = useState(() => load('ff_activity', 1.2))
+  const [goal,     setGoal]     = useState(() => load('ff_goal',     'maintain'))
+  const [saved,    setSaved]    = useState(false)
+
+  useEffect(() => {
+    localStorage.setItem('ff_sex',      JSON.stringify(sex))
+    localStorage.setItem('ff_age',      JSON.stringify(age))
+    localStorage.setItem('ff_weight',   JSON.stringify(weight))
+    localStorage.setItem('ff_height',   JSON.stringify(height))
+    localStorage.setItem('ff_activity', JSON.stringify(activity))
+    localStorage.setItem('ff_goal',     JSON.stringify(goal))
+    setSaved(true)
+    const t = setTimeout(() => setSaved(false), 1500)
+    return () => clearTimeout(t)
+  }, [sex, age, weight, height, activity, goal])
+
+  const handleReset = () => {
+    setSex('male'); setAge(30); setWeight(75)
+    setHeight(175); setActivity(1.2); setGoal('maintain')
+  }
 
   const bmr = sex === 'male'
     ? 10 * weight + 6.25 * height - 5 * age + 5
@@ -35,7 +58,22 @@ export default function Calculator() {
 
   return (
     <section>
-      <h2>Calorie Calculator</h2>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+        <h2 style={{ margin: 0 }}>Calorie Calculator</h2>
+        {saved && (
+          <span style={{ color: '#4ade80', fontSize: 13, fontWeight: 600 }}>✓ Saved</span>
+        )}
+        <button
+          onClick={handleReset}
+          style={{
+            marginLeft: 'auto', background: 'none', border: '1px solid #444',
+            color: '#888', padding: '4px 12px', borderRadius: 8,
+            cursor: 'pointer', fontSize: 13
+          }}
+        >
+          Reset
+        </button>
+      </div>
       <div className="card" style={{ marginTop: 12 }}>
 
         <div className="form-row">

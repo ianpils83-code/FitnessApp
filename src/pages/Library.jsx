@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ExerciseCard from '../components/ExerciseCard'
 import exercises from '../data/exercises.json'
 
@@ -6,7 +6,11 @@ const muscles = ['All', 'Chest', 'Back', 'Legs', 'Core', 'Shoulders', 'Arms', 'F
 
 export default function Library() {
   const [search, setSearch] = useState('')
-  const [muscle, setMuscle] = useState('All')
+  const [muscle, setMuscle] = useState(() => localStorage.getItem('ff_muscle') || 'All')
+
+  useEffect(() => {
+    localStorage.setItem('ff_muscle', muscle)
+  }, [muscle])
 
   const filtered = exercises.filter(e => {
     const matchMuscle = muscle === 'All' || e.muscle === muscle
