@@ -9,6 +9,7 @@ import Diet from './pages/Diet'
 import Progress from './pages/Progress'
 import Records  from './pages/Records'
 import History  from './pages/History'
+import Macros   from './pages/Macros'
 import RestTimer from './components/RestTimer'
 
 export default function App() {
@@ -30,6 +31,8 @@ export default function App() {
         return <Records />
       case 'history':
         return <History />
+      case 'macros':
+        return <Macros />
       default:
         return <Home />
     }
