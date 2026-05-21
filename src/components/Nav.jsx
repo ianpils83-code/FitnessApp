@@ -8,7 +8,8 @@ export default function Nav({ page, setPage }) {
     { id: 'calculator', label: 'Calculator' },
     { id: 'diet',       label: 'Diet'       },
     { id: 'progress',   label: '📈 Progress' },
-    { id: 'records',    label: '🏅 Records'  }
+    { id: 'records',    label: '🏅 Records'  },
+    { id: 'history',    label: '🗓️ History'  }
   ]
 
   return (

@@ -8,6 +8,7 @@ import Calculator from './pages/Calculator'
 import Diet from './pages/Diet'
 import Progress from './pages/Progress'
 import Records  from './pages/Records'
+import History  from './pages/History'
 import RestTimer from './components/RestTimer'
 
 export default function App() {
@@ -27,6 +28,8 @@ export default function App() {
         return <Progress />
       case 'records':
         return <Records />
+      case 'history':
+        return <History />
       default:
         return <Home />
     }

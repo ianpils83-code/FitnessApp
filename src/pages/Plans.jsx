@@ -6,6 +6,38 @@ const loadChecklist = () => { try { return JSON.parse(localStorage.getItem(CL_KE
 const saveChecklist = (cl) => localStorage.setItem(CL_KEY, JSON.stringify(cl))
 const exKey = (planId, wi, di, ei) => `${planId}-${wi}-${di}-${ei}`
 
+// ── History helpers ────────────────────────────────────────────
+const HX_KEY   = 'ff_history'
+const loadHx   = () => { try { return JSON.parse(localStorage.getItem(HX_KEY)) || [] } catch { return [] } }
+const saveHx   = (h) => localStorage.setItem(HX_KEY, JSON.stringify(h))
+const todayStr = () => new Date().toISOString().slice(0, 10)
+
+const logWorkout = (plan, weekLabel, dayLabel, exerciseCount) => {
+  const entry = {
+    id: `${plan.id}-${weekLabel}-${dayLabel}-${Date.now()}`,
+    date: todayStr(),
+    planId: plan.id,
+    planTitle: plan.title,
+    planEmoji: plan.emoji,
+    weekLabel: String(weekLabel),
+    dayLabel,
+    exerciseCount
+  }
+  const all = loadHx()
+  saveHx([entry, ...all])
+}
+
+const alreadyLoggedToday = (planId, dayLabel) =>
+  loadHx().some(e => e.planId === planId && e.dayLabel === dayLabel && e.date === todayStr())
+
+const lastDoneDate = (planId, dayLabel) => {
+  const match = loadHx().find(e => e.planId === planId && e.dayLabel === dayLabel)
+  return match?.date || null
+}
+
+const timesDone = (planId, dayLabel) =>
+  loadHx().filter(e => e.planId === planId && e.dayLabel === dayLabel).length
+
 const plans = [
   {
     id: 1,
@@ -175,6 +207,7 @@ export default function Plans() {
   const [selected,   setSelected]   = useState(null)
   const [openWeek,   setOpenWeek]   = useState(0)
   const [checklist,  setChecklist]  = useState(loadChecklist)
+  const [loggedKeys, setLoggedKeys] = useState({}) // track just-logged days in this session
 
   const toggle = (key) => {
     const next = { ...checklist, [key]: !checklist[key] }
@@ -250,17 +283,22 @@ export default function Plans() {
             {openWeek === wi && (
               <div style={{ border: '1px solid #333', borderTop: 'none', borderRadius: '0 0 10px 10px', padding: 16 }}>
                 {w.days.map((d, di) => {
-                  const checks   = dayDone(plan.id, wi, di, d.exercises.length)
+                  const checks    = dayDone(plan.id, wi, di, d.exercises.length)
                   const doneCount = checks.filter(Boolean).length
-                  const total    = d.exercises.length
-                  const allDone  = doneCount === total && total > 0
-                  const pct      = total ? Math.round((doneCount / total) * 100) : 0
+                  const total     = d.exercises.length
+                  const allDone   = doneCount === total && total > 0
+                  const pct       = total ? Math.round((doneCount / total) * 100) : 0
+                  const sessionKey = `${plan.id}-${wi}-${di}`
+                  const loggedNow  = !!loggedKeys[sessionKey]
+                  const loggedToday = alreadyLoggedToday(plan.id, d.day) || loggedNow
+                  const lastDone   = lastDoneDate(plan.id, d.day)
+                  const count      = timesDone(plan.id, d.day)
 
                   return (
                     <div key={di} style={{ marginBottom: di < w.days.length - 1 ? 24 : 0 }}>
 
                       {/* Day header + progress */}
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
                         <h4 style={{ color: allDone ? '#4ade80' : '#e879f9', margin: 0 }}>
                           {allDone ? '✅' : '📋'} {d.day}
                         </h4>
@@ -278,6 +316,13 @@ export default function Plans() {
                           )}
                         </div>
                       </div>
+                      {/* Last done + times */}
+                      {count > 0 && (
+                        <div style={{ fontSize: 11, color: '#555', marginBottom: 6 }}>
+                          Last done: <span style={{ color: '#666' }}>{lastDone}</span>
+                          <span style={{ marginLeft: 8 }}>· {count}× completed</span>
+                        </div>
+                      )}
 
                       {/* Progress bar */}
                       {total > 1 && (
@@ -293,8 +338,27 @@ export default function Plans() {
 
                       {/* Completion banner */}
                       {allDone && (
-                        <div style={{ background: '#4ade8022', border: '1px solid #4ade8044', borderRadius: 8, padding: '8px 12px', marginBottom: 10, color: '#4ade80', fontSize: 13, fontWeight: 600 }}>
-                          🎉 Day complete! Great work — start your rest timer.
+                        <div style={{ background: '#4ade8022', border: '1px solid #4ade8044', borderRadius: 8, padding: '10px 14px', marginBottom: 10 }}>
+                          <div style={{ color: '#4ade80', fontWeight: 700, fontSize: 13, marginBottom: 8 }}>
+                            🎉 Day complete! Great work.
+                          </div>
+                          {loggedToday ? (
+                            <div style={{ color: '#4ade80', fontSize: 12 }}>✓ Logged to history today</div>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                logWorkout(plan, w.week, d.day, total)
+                                setLoggedKeys(k => ({ ...k, [sessionKey]: true }))
+                              }}
+                              style={{
+                                background: '#4ade80', border: 'none', color: '#000',
+                                padding: '7px 18px', borderRadius: 8, fontWeight: 700,
+                                cursor: 'pointer', fontSize: 13
+                              }}
+                            >
+                              📝 Log Workout
+                            </button>
+                          )}
                         </div>
                       )}
 
