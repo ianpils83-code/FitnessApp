@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 const KEY = 'ff_progress'
 
@@ -11,8 +11,33 @@ const save = (entries) => localStorage.setItem(KEY, JSON.stringify(entries))
 
 const today = () => new Date().toISOString().slice(0, 10)
 
+// ── Export SVG chart as PNG ─────────────────────────────────────
+const exportChart = (svgEl) => {
+  if (!svgEl) return
+  const W = 600, H = 220
+  const svgStr = new XMLSerializer().serializeToString(svgEl)
+  const blob   = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' })
+  const url    = URL.createObjectURL(blob)
+  const img    = new Image()
+  img.onload = () => {
+    const canvas = document.createElement('canvas')
+    canvas.width  = W
+    canvas.height = H
+    const ctx = canvas.getContext('2d')
+    ctx.fillStyle = '#0b0b0b'
+    ctx.fillRect(0, 0, W, H)
+    ctx.drawImage(img, 0, 0, W, H)
+    URL.revokeObjectURL(url)
+    const a = document.createElement('a')
+    a.download = `fitforge-progress-${new Date().toISOString().slice(0,10)}.png`
+    a.href = canvas.toDataURL('image/png')
+    a.click()
+  }
+  img.src = url
+}
+
 // ── SVG Line Chart ──────────────────────────────────────────────
-function Chart({ entries }) {
+function Chart({ entries, svgRef }) {
   if (entries.length < 2) return (
     <div style={{ textAlign: 'center', padding: '32px 0', color: '#555', fontSize: 14 }}>
       Add at least 2 entries to see your chart
@@ -40,7 +65,7 @@ function Chart({ entries }) {
     : [0, Math.floor(entries.length / 2), entries.length - 1]
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
+    <svg ref={svgRef} viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', display: 'block' }}>
       {/* Grid lines */}
       {[0, 0.5, 1].map((t, i) => (
         <line key={i}
@@ -86,6 +111,7 @@ export default function Progress() {
   const [date,    setDate]    = useState(today)
   const [weight,  setWeight]  = useState('')
   const [error,   setError]   = useState('')
+  const svgRef = useRef(null)
 
   const add = () => {
     const w = parseFloat(weight)
@@ -148,7 +174,20 @@ export default function Progress() {
 
       {/* Chart */}
       <div className="card" style={{ marginTop: 16, padding: '16px 8px' }}>
-        <Chart entries={entries} />
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
+          {entries.length >= 2 && (
+            <button
+              onClick={() => exportChart(svgRef.current)}
+              style={{
+                background: 'none', border: '1px solid #333', color: '#888',
+                padding: '4px 12px', borderRadius: 8, cursor: 'pointer', fontSize: 12
+              }}
+            >
+              📥 Export as Image
+            </button>
+          )}
+        </div>
+        <Chart entries={entries} svgRef={svgRef} />
       </div>
 
       {/* Log Form */}

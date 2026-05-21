@@ -1,32 +1,116 @@
-:root{
+/* ── CSS Variables ─────────────────────────────────────────── */
+:root {
   --brand-orange: #ff6a00;
-  --brand-dark: #0b0b0b;
-  --muted: #f3f3f3;
+
+  /* Dark theme (default) */
+  --bg-body:     #0b0b0b;
+  --bg-gradient: linear-gradient(180deg,#111 0%,#0b0b0b 100%);
+  --bg-nav:      #0b0b0b;
+  --bg-card:     linear-gradient(180deg,#11111188,#0b0b0b88);
+  --bg-input:    #0b0b0b;
+  --bg-hover:    #1a1a1a;
+
+  --c-text:      #ffffff;
+  --c-muted:     #bbbbbb;
+  --c-subtle:    #666666;
+  --c-faint:     #333333;
+
+  --b-card:      #222222;
+  --b-input:     #333333;
+  --b-nav:       4px solid var(--brand-orange);
 }
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;background:linear-gradient(180deg,#111 0%, #0b0b0b 100%);color:#fff}
-.app-root{min-height:100vh;display:flex;flex-direction:column}
-.container{flex:1;padding:24px;max-width:1100px;margin:0 auto}
 
-.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:var(--brand-dark);border-bottom:4px solid var(--brand-orange)}
-.brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:20px;color:var(--brand-orange)}
-.nav-links{display:flex;gap:12px}
-.nav-links button{background:transparent;border:2px solid transparent;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
-.nav-links button.active{background:var(--brand-orange);color:var(--brand-dark);font-weight:700}
+[data-theme="light"] {
+  --bg-body:     #f2f2f2;
+  --bg-gradient: linear-gradient(180deg,#f8f8f8 0%,#eeeeee 100%);
+  --bg-nav:      #ffffff;
+  --bg-card:     rgba(255,255,255,0.95);
+  --bg-input:    #ffffff;
+  --bg-hover:    #f5f5f5;
 
-.hero{display:flex;gap:24px;align-items:center;margin:24px 0}
-.hero .left{flex:1}
-.hero h1{font-size:36px;margin:0;color:var(--brand-orange)}
-.hero p{margin:8px 0 0;color:#ddd}
+  --c-text:      #111111;
+  --c-muted:     #444444;
+  --c-subtle:    #777777;
+  --c-faint:     #cccccc;
 
-.card{background:linear-gradient(180deg,#11111188, #0b0b0b88);border:1px solid #222;padding:18px;border-radius:12px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.exercise img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+  --b-card:      #e0e0e0;
+  --b-input:     #cccccc;
+  --b-nav:       4px solid var(--brand-orange);
+}
 
-.footer{padding:20px;text-align:center;color:#bbb;border-top:1px solid #111}
+/* ── Reset & Base ──────────────────────────────────────────── */
+* { box-sizing: border-box }
 
-.form-row{display:flex;gap:8px;align-items:center}
-.input,select{padding:8px;border-radius:8px;border:1px solid #333;background:#0b0b0b;color:#fff}
-.btn{background:var(--brand-orange);border:none;color:#0b0b0b;padding:10px 14px;border-radius:10px;cursor:pointer}
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: var(--bg-gradient);
+  color: var(--c-text);
+  transition: background 0.3s, color 0.3s;
+}
 
-@media (max-width:600px){.hero{flex-direction:column;align-items:flex-start}.hero h1{font-size:28px}}
+/* ── Layout ────────────────────────────────────────────────── */
+.app-root  { min-height: 100vh; display: flex; flex-direction: column }
+.container { flex: 1; padding: 24px; max-width: 1100px; margin: 0 auto }
+
+/* ── Nav ───────────────────────────────────────────────────── */
+.nav { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 14px 24px; background: var(--bg-nav); border-bottom: var(--b-nav); }
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 20px; color: var(--brand-orange) }
+.nav-links { display: flex; gap: 8px; flex-wrap: wrap }
+.nav-links button { background: transparent; border: 2px solid transparent; color: var(--c-text); padding: 7px 11px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: background 0.2s, color 0.2s }
+.nav-links button.active { background: var(--brand-orange); color: #000; font-weight: 700 }
+.nav-links button:not(.active):hover { background: var(--bg-hover) }
+
+/* ── Hero ──────────────────────────────────────────────────── */
+.hero  { display: flex; gap: 24px; align-items: center; margin: 24px 0 }
+.hero .left { flex: 1 }
+.hero h1 { font-size: 36px; margin: 0; color: var(--brand-orange) }
+.hero p { margin: 8px 0 0; color: var(--c-muted) }
+
+/* ── Cards & Grid ──────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--b-card);
+  padding: 18px;
+  border-radius: 12px;
+  color: var(--c-text);
+  transition: border-color 0.2s, background 0.3s;
+}
+.grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 16px }
+.exercise img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px }
+
+/* ── Footer ────────────────────────────────────────────────── */
+.footer { padding: 20px; text-align: center; color: var(--c-subtle); border-top: 1px solid var(--b-card) }
+
+/* ── Form elements ─────────────────────────────────────────── */
+.form-row { display: flex; gap: 8px; align-items: center }
+.input, select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--b-input);
+  background: var(--bg-input);
+  color: var(--c-text);
+  transition: background 0.3s, border-color 0.3s, color 0.3s;
+}
+.btn { background: var(--brand-orange); border: none; color: #000; padding: 10px 14px; border-radius: 10px; cursor: pointer }
+
+/* ── Light mode text overrides ─────────────────────────────── */
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4 { color: #111 }
+
+[data-theme="light"] p,
+[data-theme="light"] li { color: #444 }
+
+[data-theme="light"] table { color: #111 }
+
+[data-theme="light"] .card { box-shadow: 0 2px 12px #0001 }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .hero { flex-direction: column; align-items: flex-start }
+  .hero h1 { font-size: 26px }
+  .nav { padding: 10px 16px }
+  .nav-links button { padding: 6px 8px; font-size: 12px }
+}

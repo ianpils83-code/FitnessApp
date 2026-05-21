@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Nav({ page, setPage }) {
+export default function Nav({ page, setPage, theme, toggleTheme }) {
   const links = [
     { id: 'home',       label: 'Home'       },
     { id: 'plans',      label: 'Plans'      },
@@ -28,6 +28,16 @@ export default function Nav({ page, setPage }) {
             {l.label}
           </button>
         ))}
+        <button
+          onClick={toggleTheme}
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          style={{
+            background: 'none', border: '1px solid #444', borderRadius: 8,
+            padding: '6px 10px', cursor: 'pointer', fontSize: 16, lineHeight: 1
+          }}
+        >
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
       </nav>
     </header>
   )
