@@ -7,7 +7,8 @@ export default function Nav({ page, setPage }) {
     { id: 'library',    label: 'Library'    },
     { id: 'calculator', label: 'Calculator' },
     { id: 'diet',       label: 'Diet'       },
-    { id: 'progress',   label: '📈 Progress' }
+    { id: 'progress',   label: '📈 Progress' },
+    { id: 'records',    label: '🏅 Records'  }
   ]
 
   return (
