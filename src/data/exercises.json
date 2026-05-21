@@ -1,5 +1,37 @@
 [
-  {"id":1,"name":"Push-up","muscle":"Chest","equipment":"Bodyweight","img":"/images/ex1.svg"},
-  {"id":2,"name":"Squat","muscle":"Legs","equipment":"Bodyweight","img":"/images/ex2.svg"},
-  {"id":3,"name":"Bent-over Row","muscle":"Back","equipment":"Dumbbell","img":"/images/ex3.svg"}
+  {
+    "id": 1,
+    "name": "Push-up",
+    "muscle": "Chest",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 2,
+    "name": "Squat",
+    "muscle": "Legs",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1649887974297-4be052375a67?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 3,
+    "name": "Bent-over Row",
+    "muscle": "Back",
+    "equipment": "Dumbbell",
+    "img": "https://images.unsplash.com/photo-1734630341082-0fec0e10126c?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 4,
+    "name": "Plank",
+    "muscle": "Core",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1714646442330-9068099f5521?auto=format&fit=crop&w=400&h=160"
+  },
+  {
+    "id": 5,
+    "name": "Lunge",
+    "muscle": "Legs",
+    "equipment": "Bodyweight",
+    "img": "https://images.unsplash.com/photo-1758599880618-3f03f2a401b4?auto=format&fit=crop&w=400&h=160"
+  }
 ]

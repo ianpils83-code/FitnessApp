@@ -9,7 +9,7 @@ export default function Home(){
           <p>Personalized workout plans, an exercise library with images, a calorie calculator, and diet guidance — all in one bold app.</p>
         </div>
         <div className="right">
-          <img src="/images/ex1.svg" alt="workout" style={{width:260}} />
+          <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=520&h=380" alt="workout" style={{width:260,borderRadius:12,objectFit:'cover'}} />
         </div>
       </div>
 
