@@ -11,6 +11,7 @@ import Records    from './pages/Records'
 import History    from './pages/History'
 import Macros     from './pages/Macros'
 import RestTimer  from './components/RestTimer'
+import Profile    from './pages/Profile'
 
 export default function App() {
   const [page,  setPage]  = useState('home')
@@ -34,6 +35,7 @@ export default function App() {
       case 'records':    return <Records />
       case 'history':    return <History />
       case 'macros':     return <Macros />
+      case 'profile':    return <Profile />
       default:           return <Home setPage={setPage} />
     }
   }

@@ -1,5 +1,83 @@
 import React, { useState } from 'react'
 
+// ── Calorie burn estimate ──────────────────────────────────────
+const estimateKcal = (entries) => {
+  const weight = (() => { try { const v = localStorage.getItem('ff_weight'); return v ? JSON.parse(v) : 70 } catch { return 70 } })()
+  const totalEx = entries.reduce((s, e) => s + (e.exerciseCount || 5), 0)
+  const minutes = totalEx * 9          // ~3 sets × 3 min per exercise
+  return Math.round((weight * 5.0 * minutes / 60) / 10) * 10
+}
+
+// ── Share workout as PNG ───────────────────────────────────────
+const shareWorkout = (date, entries, fmtDateFn) => {
+  const W = 560, H = Math.max(300, 140 + entries.length * 80)
+  const canvas = document.createElement('canvas')
+  canvas.width = W * 2; canvas.height = H * 2   // retina
+  const ctx = canvas.getContext('2d')
+  ctx.scale(2, 2)
+
+  // Background
+  ctx.fillStyle = '#0d0d0d'
+  ctx.fillRect(0, 0, W, H)
+
+  // Orange header bar
+  ctx.fillStyle = '#ff6a00'
+  ctx.fillRect(0, 0, W, 56)
+
+  // FitForge brand
+  ctx.fillStyle = '#000'
+  ctx.font = 'bold 22px system-ui, -apple-system, sans-serif'
+  ctx.fillText('FitForge', 20, 38)
+
+  // Date top-right
+  ctx.textAlign = 'right'
+  ctx.font = '13px system-ui, -apple-system, sans-serif'
+  ctx.fillText(fmtDateFn(date), W - 20, 36)
+  ctx.textAlign = 'left'
+
+  // Workouts
+  let y = 88
+  for (const e of entries) {
+    // Emoji circle
+    ctx.fillStyle = '#1a1a1a'
+    ctx.beginPath(); ctx.arc(36, y, 20, 0, Math.PI * 2); ctx.fill()
+    ctx.font = '20px system-ui'
+    ctx.textAlign = 'center'
+    ctx.fillText(e.planEmoji || '🏋️', 36, y + 7)
+    ctx.textAlign = 'left'
+
+    // Plan info
+    ctx.fillStyle = '#ffffff'
+    ctx.font = 'bold 15px system-ui, -apple-system, sans-serif'
+    ctx.fillText(e.dayLabel, 68, y - 6)
+    ctx.fillStyle = '#888'
+    ctx.font = '13px system-ui, -apple-system, sans-serif'
+    ctx.fillText(`${e.planTitle}  ·  ${e.exerciseCount} exercises`, 68, y + 12)
+
+    y += 72
+  }
+
+  // Kcal estimate
+  const kcal = estimateKcal(entries)
+  ctx.fillStyle = '#4ade8033'
+  ctx.fillRect(20, y - 20, W - 40, 36)
+  ctx.fillStyle = '#4ade80'
+  ctx.font = 'bold 14px system-ui, -apple-system, sans-serif'
+  ctx.fillText(`🔥 Est. ~${kcal} kcal burned`, 36, y + 3)
+
+  // Footer
+  ctx.fillStyle = '#1a1a1a'
+  ctx.fillRect(0, H - 30, W, 30)
+  ctx.fillStyle = '#444'
+  ctx.font = '11px system-ui, -apple-system, sans-serif'
+  ctx.fillText('Generated with FitForge', 20, H - 10)
+
+  const a = document.createElement('a')
+  a.download = `fitforge-workout-${date}.png`
+  a.href = canvas.toDataURL('image/png')
+  a.click()
+}
+
 const HX_KEY  = 'ff_history'
 const loadHx  = () => { try { return JSON.parse(localStorage.getItem(HX_KEY)) || [] } catch { return [] } }
 const saveHx  = (h) => localStorage.setItem(HX_KEY, JSON.stringify(h))
@@ -113,21 +191,33 @@ export default function History() {
         {grouped.map(([date, entries]) => (
           <div key={date} style={{ marginBottom: 12 }}>
             {/* Date header */}
-            <button
-              onClick={() => setExpanded(expanded === date ? null : date)}
-              style={{
-                width: '100%', textAlign: 'left', background: '#1a1a1a',
-                border: '1px solid #2a2a2a', color: '#fff', padding: '10px 16px',
-                borderRadius: 10, cursor: 'pointer', fontWeight: 600, fontSize: 14,
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center'
-              }}
-            >
-              <span>📅 {fmtDate(date)}</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ color: '#4ade80', fontSize: 12 }}>{entries.length} workout{entries.length > 1 ? 's' : ''}</span>
-                <span style={{ color: '#555' }}>{expanded === date ? '▲' : '▼'}</span>
-              </div>
-            </button>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'stretch' }}>
+              <button
+                onClick={() => setExpanded(expanded === date ? null : date)}
+                style={{
+                  flex: 1, textAlign: 'left', background: '#1a1a1a',
+                  border: '1px solid #2a2a2a', color: '#fff', padding: '10px 16px',
+                  borderRadius: 10, cursor: 'pointer', fontWeight: 600, fontSize: 14,
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                }}
+              >
+                <span>📅 {fmtDate(date)}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span style={{ color: '#4ade80', fontSize: 12 }}>🔥 ~{estimateKcal(entries)} kcal</span>
+                  <span style={{ color: '#e879f9', fontSize: 12 }}>{entries.length} workout{entries.length > 1 ? 's' : ''}</span>
+                  <span style={{ color: '#555' }}>{expanded === date ? '▲' : '▼'}</span>
+                </div>
+              </button>
+              <button
+                onClick={() => shareWorkout(date, entries, fmtDate)}
+                title="Share as image"
+                style={{
+                  background: '#1a1a1a', border: '1px solid #2a2a2a', color: '#888',
+                  padding: '0 14px', borderRadius: 10, cursor: 'pointer', fontSize: 16,
+                  flexShrink: 0
+                }}
+              >📤</button>
+            </div>
 
             {/* Entries */}
             {expanded === date && (

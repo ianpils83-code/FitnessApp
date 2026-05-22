@@ -151,6 +151,66 @@ export default function Calculator() {
           Guidance: Aim for steady fat loss ~0.5–1% bodyweight/week. For muscle gain, prioritize progressive overload and a modest surplus.
         </p>
       </div>
+
+      {/* 1RM Calculator */}
+      <OneRM />
     </section>
+  )
+}
+
+// ── 1RM Calculator ─────────────────────────────────────────────
+function OneRM() {
+  const [w,    setW]    = React.useState('')
+  const [reps, setReps] = React.useState('')
+
+  const wN = parseFloat(w)
+  const rN = parseInt(reps)
+  const valid = !isNaN(wN) && !isNaN(rN) && wN > 0 && rN >= 1 && rN <= 30
+
+  // Epley formula
+  const epley = valid ? wN * (1 + rN / 30) : null
+
+  const pcts = [1, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65]
+
+  return (
+    <div className="card" style={{ marginTop: 16 }}>
+      <h3 style={{ marginTop: 0 }}>💪 1RM Calculator</h3>
+      <p style={{ color: '#bbb', fontSize: 13, marginTop: 0 }}>
+        Estimate your one-rep max from a sub-maximal lift. Use 3–10 reps for best accuracy.
+      </p>
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end' }}>
+        <div>
+          <div style={{ color: '#bbb', fontSize: 13, marginBottom: 4 }}>Weight lifted (kg)</div>
+          <input className="input" type="number" placeholder="e.g. 80" value={w} onChange={e => setW(e.target.value)} style={{ width: 120 }} />
+        </div>
+        <div>
+          <div style={{ color: '#bbb', fontSize: 13, marginBottom: 4 }}>Reps completed</div>
+          <input className="input" type="number" placeholder="e.g. 5" value={reps} onChange={e => setReps(e.target.value)} style={{ width: 100 }} min="1" max="30" />
+        </div>
+        {valid && (
+          <div style={{ background: '#e879f922', border: '1px solid #e879f944', borderRadius: 10, padding: '8px 18px', textAlign: 'center' }}>
+            <div style={{ fontSize: 11, color: '#bbb' }}>Estimated 1RM</div>
+            <div style={{ fontSize: 26, fontWeight: 700, color: '#e879f9' }}>{epley.toFixed(1)} kg</div>
+          </div>
+        )}
+      </div>
+
+      {valid && (
+        <div style={{ marginTop: 16 }}>
+          <div style={{ color: '#bbb', fontSize: 13, marginBottom: 8 }}>Training percentages</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))', gap: 8 }}>
+            {pcts.map(p => (
+              <div key={p} style={{ background: '#ffffff08', borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>
+                <div style={{ color: '#888', fontSize: 11 }}>{Math.round(p * 100)}%</div>
+                <div style={{ fontWeight: 700, fontSize: 15, color: p === 1 ? '#e879f9' : '#fff' }}>
+                  {(epley * p).toFixed(1)} kg
+                </div>
+              </div>
+            ))}
+          </div>
+          <p style={{ color: '#555', fontSize: 12, marginTop: 10 }}>Formula: Epley — weight × (1 + reps ÷ 30)</p>
+        </div>
+      )}
+    </div>
   )
 }

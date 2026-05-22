@@ -10,7 +10,8 @@ export default function Nav({ page, setPage, theme, toggleTheme }) {
     { id: 'macros',     label: '🍽️ Macros'  },
     { id: 'progress',   label: '📈 Progress' },
     { id: 'records',    label: '🏅 Records'  },
-    { id: 'history',    label: '🗓️ History'  }
+    { id: 'history',    label: '🗓️ History'  },
+    { id: 'profile',    label: '👤 Profile'  }
   ]
 
   return (
