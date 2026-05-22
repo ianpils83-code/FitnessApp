@@ -18,7 +18,7 @@ const loadHx   = () => { try { return JSON.parse(localStorage.getItem(HX_KEY)) |
 const saveHx   = (h) => localStorage.setItem(HX_KEY, JSON.stringify(h))
 const todayStr = () => new Date().toISOString().slice(0, 10)
 
-const logWorkout = (plan, weekLabel, dayLabel, exerciseCount) => {
+const logWorkout = (plan, weekLabel, dayLabel, exerciseCount, note = '') => {
   const entry = {
     id: `${plan.id}-${weekLabel}-${dayLabel}-${Date.now()}`,
     date: todayStr(),
@@ -27,7 +27,8 @@ const logWorkout = (plan, weekLabel, dayLabel, exerciseCount) => {
     planEmoji: plan.emoji,
     weekLabel: String(weekLabel),
     dayLabel,
-    exerciseCount
+    exerciseCount,
+    note: note.trim(),
   }
   const all = loadHx()
   saveHx([entry, ...all])
@@ -217,6 +218,7 @@ export default function Plans() {
   const [customPlans,  setCustomPlans] = useState(loadCustom)
   const [building,     setBuilding]   = useState(false)
   const [editingPlan,  setEditingPlan] = useState(null)
+  const [noteInputs,   setNoteInputs]  = useState({})
 
   const saveAndSetCustom = (plans) => { setCustomPlans(plans); saveCustom(plans) }
 
@@ -322,7 +324,15 @@ export default function Plans() {
               <div style={{ color: '#4ade80', fontWeight: 700, fontSize: 13, marginBottom: 8 }}>🎉 Workout complete!</div>
               {loggedToday
                 ? <div style={{ color: '#4ade80', fontSize: 12 }}>✓ Logged to history today</div>
-                : <button onClick={() => { logWorkout(plan, 1, plan.title, total); setLoggedKeys(k => ({ ...k, [sessionKey]: true })) }} style={{ background: '#4ade80', border: 'none', color: '#000', padding: '7px 18px', borderRadius: 8, fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>📝 Log Workout</button>
+                : <div>
+                    <textarea
+                      placeholder="Add a note (optional)… e.g. felt strong today"
+                      value={noteInputs[sessionKey] || ''}
+                      onChange={e => setNoteInputs(k => ({ ...k, [sessionKey]: e.target.value }))}
+                      style={{ width: '100%', marginBottom: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: '#fff', padding: '7px 10px', fontSize: 12, resize: 'vertical', minHeight: 48 }}
+                    />
+                    <button onClick={() => { logWorkout(plan, 1, plan.title, total, noteInputs[sessionKey]); setLoggedKeys(k => ({ ...k, [sessionKey]: true })) }} style={{ background: '#4ade80', border: 'none', color: '#000', padding: '7px 18px', borderRadius: 8, fontWeight: 700, cursor: 'pointer', fontSize: 13 }}>📝 Log Workout</button>
+                  </div>
               }
             </div>
           )}
@@ -482,19 +492,23 @@ export default function Plans() {
                           {loggedToday ? (
                             <div style={{ color: '#4ade80', fontSize: 12 }}>✓ Logged to history today</div>
                           ) : (
-                            <button
-                              onClick={() => {
-                                logWorkout(plan, w.week, d.day, total)
-                                setLoggedKeys(k => ({ ...k, [sessionKey]: true }))
-                              }}
-                              style={{
-                                background: '#4ade80', border: 'none', color: '#000',
-                                padding: '7px 18px', borderRadius: 8, fontWeight: 700,
-                                cursor: 'pointer', fontSize: 13
-                              }}
-                            >
-                              📝 Log Workout
-                            </button>
+                            <div>
+                              <textarea
+                                placeholder="Add a note (optional)… e.g. increased bench by 5kg"
+                                value={noteInputs[sessionKey] || ''}
+                                onChange={e => setNoteInputs(k => ({ ...k, [sessionKey]: e.target.value }))}
+                                style={{ width: '100%', marginBottom: 8, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, color: '#fff', padding: '7px 10px', fontSize: 12, resize: 'vertical', minHeight: 48 }}
+                              />
+                              <button
+                                onClick={() => {
+                                  logWorkout(plan, w.week, d.day, total, noteInputs[sessionKey])
+                                  setLoggedKeys(k => ({ ...k, [sessionKey]: true }))
+                                }}
+                                style={{ background: '#4ade80', border: 'none', color: '#000', padding: '7px 18px', borderRadius: 8, fontWeight: 700, cursor: 'pointer', fontSize: 13 }}
+                              >
+                                📝 Log Workout
+                              </button>
+                            </div>
                           )}
                         </div>
                       )}

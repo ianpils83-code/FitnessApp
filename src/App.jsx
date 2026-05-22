@@ -10,8 +10,11 @@ import Progress   from './pages/Progress'
 import Records    from './pages/Records'
 import History    from './pages/History'
 import Macros     from './pages/Macros'
-import RestTimer  from './components/RestTimer'
-import Profile    from './pages/Profile'
+import RestTimer    from './components/RestTimer'
+import Profile      from './pages/Profile'
+import Water        from './pages/Water'
+import Measurements from './pages/Measurements'
+import WeeklySummary from './pages/WeeklySummary'
 
 export default function App() {
   const [page,  setPage]  = useState('home')
@@ -34,9 +37,12 @@ export default function App() {
       case 'progress':   return <Progress />
       case 'records':    return <Records />
       case 'history':    return <History />
-      case 'macros':     return <Macros />
-      case 'profile':    return <Profile />
-      default:           return <Home setPage={setPage} />
+      case 'macros':        return <Macros />
+      case 'profile':       return <Profile />
+      case 'water':         return <Water />
+      case 'measurements':  return <Measurements />
+      case 'weekly':        return <WeeklySummary />
+      default:              return <Home setPage={setPage} />
     }
   }
 

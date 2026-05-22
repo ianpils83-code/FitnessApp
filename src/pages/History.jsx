@@ -238,6 +238,11 @@ export default function History() {
                       <div style={{ color: '#666', fontSize: 12, marginTop: 2 }}>
                         {e.planTitle} · Week {e.weekLabel} · {e.exerciseCount} exercises
                       </div>
+                      {e.note && (
+                        <div style={{ color: '#555', fontSize: 11, marginTop: 3, fontStyle: 'italic' }}>
+                          💬 {e.note}
+                        </div>
+                      )}
                     </div>
                     <button
                       onClick={() => deleteEntry(e.id)}
